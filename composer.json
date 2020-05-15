@@ -1,0 +1,29 @@
+{
+    "name": "programic/html2docx",
+    "license": "proprietary",
+    "type": "package",
+    "description": "Convert html to docx",
+    "readme": "README.md",
+    "authors": [
+        {
+            "name": "Programic",
+            "email": "development@programic.com",
+            "homepage": "https://programic.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "phpoffice/phpword": "^0.17.0"
+    },
+    "require-dev": {
+
+    },
+    "autoload": {
+        "files": [
+          "src/Simplehtmldom/H2dConverter.php"
+        ],
+        "psr-4": {
+            "Programic\\Html2Docx\\": "src/"
+        }
+    }
+}
