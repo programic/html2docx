@@ -21,6 +21,7 @@ class Docx
     private $settings;
     private $file = null;
     private $styles = [];
+    private $writerInterface = 'Word2007';
 
     /**
      * Docx constructor.
@@ -71,16 +72,46 @@ class Docx
         $section = $this->phpWord->createSection();
         $html_dom_array = $this->dom->find('html', 0)->children();
         htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->settings);
-        // Clear the HTML dom object:
+
         $this->dom->clear();
         $this->dom = null;
 
         return $this;
     }
 
-    public function save($location)
+    /**
+     * @param $writerInterface
+     * @return $this
+     */
+    public function setWriterInterface($writerInterface)
     {
-        $objWriter = IOFactory::createWriter($this->phpWord, 'Word2007');
-        $objWriter->save($location);
+        if (in_array($writerInterface, [
+            'ODText',
+            'RTF',
+            'Word2007',
+            'HTML',
+            'PDF'
+        ])) {
+            $this->writerInterface = $writerInterface;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $location
+     * @param null $writerInterface
+     * @return mixed
+     * @throws \PhpOffice\PhpWord\Exception\Exception
+     */
+    public function save($location, $writerInterface=null)
+    {
+        if ($this->writerInterface !== null) {
+            $this->setWriterInterface($writerInterface);
+        }
+
+        $objWriter = IOFactory::createWriter($this->phpWord, $this->writerInterface);
+
+        return $objWriter->save($location);
     }
 }

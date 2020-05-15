@@ -1,7 +1,6 @@
 # Programic - HTML 2 DOCX
 
-Met deze package kun je HTML converteren naar docx/ Word
-
+Met deze package kun je HTML converteren naar Word, ODText, RTF en PDF.
 ## Gebruik
 Om deze package te gebruiken, installeer je de package via composer.
 
@@ -22,7 +21,7 @@ use Programic\Html2Docx\Docx;
 
 $docx = new Docx($settings);
 $docx->setContent($content);
-$docx->save($location);
+$docx->save($location, $writerInterface='Word2007');
 ```
 
 #### Settings
@@ -44,3 +43,10 @@ $docx->save($location);
 // This is an array (the "style sheet")
 'style_sheet' => [], // check hasStyles trait for options
 ```
+#### Writer Interface
+De writerInterface geeft door naar welk formaat we de html gaan omzetten. De mogelijkheden zijn:
+
+1. Word2007
+2. ODText
+3. RTF
+4. PDF
