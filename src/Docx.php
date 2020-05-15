@@ -4,7 +4,6 @@ namespace Programic\Html2Docx;
 
 use Programic\Html2Docx\Simplehtmldom\SimpleHtmlDom;
 use Programic\Html2Docx\Traits\hasStyles;
-use Illuminate\Support\Facades\File;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 
