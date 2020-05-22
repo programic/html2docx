@@ -20,6 +20,7 @@ class Docx
     private $settings;
     private $file = null;
     private $styles = [];
+    private $controls = [];
     private $writerInterface = 'Word2007';
 
     /**
@@ -31,11 +32,13 @@ class Docx
         $this->dom = new SimpleHtmlDom();
         $this->phpWord = new PhpWord();
 
+        $base_root = function_exists('url') ? url('/') : null;
+        $base_path = function_exists('base_path') ? base_path() : null;
         $this->settings = array_merge([
           // Required parameters:
           'phpword_object' => &$phpword_object, // Must be passed by reference.
-          'base_root' => url('/'), // Required for link elements - change it to your domain.
-          'base_path' => base_path(), // Path from base_root to whatever url your links are relative to.
+          'base_root' => $base_root, // Required for link elements - change it to your domain.
+          'base_path' => $base_path, // Path from base_root to whatever url your links are relative to.
           // Optional parameters - showing the defaults if you don't set anything:
           'current_style' => ['size' => '11'], // The PHPWord style on the top element
           'parents' => [0 => 'body'], // Our parent is body.
@@ -66,14 +69,14 @@ class Docx
      */
     public function setContent(string $content) : self
     {
-        $this->dom->load('<html><body>' . $content . '</body></html>');
+        $this->content = $content;
 
-        $section = $this->phpWord->createSection();
-        $html_dom_array = $this->dom->find('html', 0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->settings);
+        return $this;
+    }
 
-        $this->dom->clear();
-        $this->dom = null;
+    public function setElementControl(string $target, $callback) : self
+    {
+        $this->controls[$target] = $callback;
 
         return $this;
     }
@@ -97,14 +100,29 @@ class Docx
         return $this;
     }
 
+    private function render()
+    {
+        $this->dom->load('<html><body>' . $this->content . '</body></html>');
+
+        $section = $this->phpWord->createSection();
+        $html_dom_array = $this->dom->find('html', 0)->children();
+        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->settings, $this->controls);
+
+        $this->dom->clear();
+        $this->dom = null;
+    }
+
     /**
      * @param $location
      * @param null $writerInterface
      * @return mixed
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
+
     public function save($location, $writerInterface=null)
     {
+        $this->render();
+
         if ($this->writerInterface !== null) {
             $this->setWriterInterface($writerInterface);
         }
