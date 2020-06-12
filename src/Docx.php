@@ -36,7 +36,7 @@ class Docx
         $base_path = function_exists('base_path') ? base_path() : null;
         $this->settings = array_merge([
           // Required parameters:
-          'phpword_object' => &$phpword_object, // Must be passed by reference.
+          'phpword_object' => &$this->phpWord, // Must be passed by reference.
           'base_root' => $base_root, // Required for link elements - change it to your domain.
           'base_path' => $base_path, // Path from base_root to whatever url your links are relative to.
           // Optional parameters - showing the defaults if you don't set anything:

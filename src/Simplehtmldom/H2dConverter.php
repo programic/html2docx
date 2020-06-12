@@ -92,11 +92,6 @@ function htmltodocx_clean_text($text) {
   // Strip out extra spaces:
   $text = preg_replace('/\s+/u', ' ', $text);
 
-  // Convert entities:
-  $text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
-
-  $text = str_replace('&', ' en ', $text);
-
   return $text;
 }
 
@@ -301,7 +296,6 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
       case 'h4':
       case 'h5':
       case 'h6':
-
         if ($state['structure_document'] && in_array($element->tag, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6')) && is_object($state['phpword_object'])) {
           // If the structure_document option has been enabled, then headings
           // are used to create Word heading styles. Note, in this case, any
