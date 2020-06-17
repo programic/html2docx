@@ -668,6 +668,9 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
         elseif (strpos($element_src, '/') === 0) {
           $src = htmltodocx_doc_root() . $element_src;
         }
+        elseif(preg_match('/^(.*base64,)/m', $element_src)) {
+          $src = base64_decode(preg_replace('/^(.*base64,)/m', '', $element_src));
+        }
         else {
           $src = htmltodocx_doc_root() . $state['base_path'] . $element_src;
         }
