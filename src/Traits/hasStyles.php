@@ -77,6 +77,9 @@ trait hasStyles
             'text-decoration: underline' => [
                 'underline' => Font::UNDERLINE_SINGLE,
             ],
+            'text-decoration: line-through' => [
+                'strikeThrough' => true,
+            ],
             'vertical-align: left' => [
                 'align' => 'left',
             ],

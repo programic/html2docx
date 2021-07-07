@@ -186,6 +186,7 @@ function htmltodocx_inheritable_props() {
     'italic',
     'superScript',
     'subScript',
+    'strikeThrough',
     'underline',
     'color',
     'fgColor',

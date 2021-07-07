@@ -2,6 +2,7 @@
 
 namespace Programic\Html2Docx;
 
+use PhpOffice\PhpWord\Exception\Exception;
 use Programic\Html2Docx\Simplehtmldom\SimpleHtmlDom;
 use Programic\Html2Docx\Traits\hasStyles;
 use PhpOffice\PhpWord\IOFactory;
@@ -49,7 +50,7 @@ class Docx
             'pseudo_list_indicator_font_size' => '7', // Bullet indicator size.
             'pseudo_list_indicator_character' => 'l ', // Gives a circle bullet point with wingdings.
             'table_allowed' => true, // Tables cannot be nested in PHPWord.
-            'treat_div_as_paragraph' => true, // If set to TRUE, each new div will trigger a new line in the Word document.
+            'treat_div_as_paragraph' => true, // If set to TRUE, each new div will trigger a new line in the document.
 
             // This is an array (the "style sheet")
             'style_sheet' => $this->getStyles(),
@@ -125,10 +126,10 @@ class Docx
      * @param $location
      * @param null $writerInterface
      * @return mixed
-     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @throws Exception
      */
 
-    public function save($location, $writerInterface=null)
+    public function save($location, $writerInterface = null)
     {
         $this->settings();
         $this->render();
